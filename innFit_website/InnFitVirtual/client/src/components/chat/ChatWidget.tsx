@@ -9,13 +9,15 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  isTypewriting?: boolean;
 }
 
 const welcomeMessage: Message = {
   id: "welcome",
   role: "assistant",
-  content: "Hi there! I'm InnFit's AI assistant. How can I help you discover your perfect fit today?",
+  content: "Hi! How can I assist you?",
   timestamp: new Date(),
+  isTypewriting: true,
 };
 
 const quickReplies = [
@@ -32,11 +34,62 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([welcomeMessage]);
   const [isTyping, setIsTyping] = useState(false);
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
+  const [displayedText, setDisplayedText] = useState<{ [key: string]: string }>({});
+  const [showGreeting, setShowGreeting] = useState(true);
+  const [greetingText, setGreetingText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const greetingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, displayedText]);
+
+  // Greeting typewriter effect on mount (5 seconds for full text)
+  useEffect(() => {
+    if (showGreeting && !isOpen) {
+      const greetingMessage = "Hi! How can I help you?";
+      let currentIndex = 0;
+      const intervalDuration = 5000 / greetingMessage.length;
+
+      greetingIntervalRef.current = setInterval(() => {
+        if (currentIndex <= greetingMessage.length) {
+          setGreetingText(greetingMessage.substring(0, currentIndex));
+          currentIndex++;
+        } else {
+          if (greetingIntervalRef.current) clearInterval(greetingIntervalRef.current);
+        }
+      }, intervalDuration);
+
+      return () => {
+        if (greetingIntervalRef.current) clearInterval(greetingIntervalRef.current);
+      };
+    }
+  }, [showGreeting, isOpen]);
+
+  useEffect(() => {
+    // Typewriter effect for messages with isTypewriting flag
+    messages.forEach((msg) => {
+      if (msg.isTypewriting && !displayedText[msg.id]) {
+        let currentIndex = 0;
+        const interval = setInterval(() => {
+          if (currentIndex <= msg.content.length) {
+            setDisplayedText((prev) => ({
+              ...prev,
+              [msg.id]: msg.content.substring(0, currentIndex),
+            }));
+            currentIndex++;
+          } else {
+            clearInterval(interval);
+            // Remove typewriting flag after animation completes
+            setMessages((prev) =>
+              prev.map((m) => (m.id === msg.id ? { ...m, isTypewriting: false } : m))
+            );
+          }
+        }, 30); // Faster response rate
+        return () => clearInterval(interval);
+      }
+    });
+  }, [messages, displayedText]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -81,6 +134,7 @@ export default function ChatWidget() {
         role: "assistant",
         content: data.message || "Thanks for your message! Our AI-powered virtual fitting room helps you find the perfect fit every time.",
         timestamp: new Date(),
+        isTypewriting: true,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -105,6 +159,7 @@ export default function ChatWidget() {
     setIsOpen(true);
     setIsMinimized(false);
     setHasUnreadMessages(false);
+    setShowGreeting(false);
   };
 
   return (
@@ -180,7 +235,12 @@ export default function ChatWidget() {
                         : "bg-accent"
                     }`}
                   >
-                    <p className="text-sm leading-relaxed">{msg.content}</p>
+                    <p className="text-sm leading-relaxed">
+                      {msg.isTypewriting ? displayedText[msg.id] || "" : msg.content}
+                      {msg.isTypewriting && displayedText[msg.id] && displayedText[msg.id].length < msg.content.length && (
+                        <span className="animate-pulse">▍</span>
+                      )}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -255,11 +315,47 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
+      {/* Greeting Tooltip */}
+      <AnimatePresence>
+        {showGreeting && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+            className="fixed bottom-24 right-4 md:right-6 bg-card border border-border rounded-2xl shadow-xl p-4 w-64 z-50"
+          >
+            <div className="flex gap-3 items-start">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center flex-shrink-0">
+                <Bot className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold mb-1">InnFit Assistant</p>
+                <p className="text-xs text-muted-foreground min-h-[18px]">
+                  {greetingText}
+                  {greetingText.length < 23 && <span className="animate-pulse">▍</span>}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowGreeting(false)}
+                className="flex-shrink-0 p-1 hover:bg-accent rounded-lg transition-colors"
+                aria-label="Dismiss assistant greeting"
+                data-testid="button-dismiss-greeting"
+              >
+                <X className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Chat Button */}
       <motion.button
         onClick={handleOpen}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-4 md:right-6 w-14 h-14 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple text-white shadow-lg z-50 flex items-center justify-center"
+        animate={showGreeting && !isOpen ? { scale: [1, 1.1, 1] } : {}}
+        transition={showGreeting && !isOpen ? { duration: 2, repeat: Infinity } : {}}
+        className="fixed bottom-6 right-4 md:right-6 w-14 h-14 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple text-white shadow-xl z-50 flex items-center justify-center ring-4 ring-neon-blue/20"
         data-testid="button-open-chat"
       >
         <AnimatePresence mode="wait">
@@ -298,7 +394,24 @@ export default function ChatWidget() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
           </span>
         )}
+
+        {/* Pulsing ring animation */}
+        {showGreeting && !isOpen && (
+          <>
+            <motion.div
+              animate={{ scale: [1, 1.3], opacity: [1, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="absolute inset-0 rounded-full border-2 border-neon-blue"
+            />
+            <motion.div
+              animate={{ scale: [1, 1.5], opacity: [1, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+              className="absolute inset-0 rounded-full border-2 border-neon-purple"
+            />
+          </>
+        )}
       </motion.button>
     </>
   );
 }
+
