@@ -1,0 +1,42 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background dots pattern -->
+  <defs>
+    <pattern id="dots" x="10" y="10" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="2" fill="#999"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="300" fill="#e0e0e0"/>
+  <rect width="400" height="300" fill="url(#dots)"/>
+  
+  <!-- Left bow tie wing -->
+  <polygon points="80,40 120,60 120,100 80,80" fill="black"/>
+  
+  <!-- Right bow tie wing -->
+  <polygon points="280,40 320,60 320,100 280,80" fill="black"/>
+  
+  <!-- Center bow tie knot -->
+  <circle cx="200" cy="70" r="8" fill="black"/>
+  
+  <!-- Tuxedo jacket left -->
+  <polygon points="120,100 160,110 160,200 120,190" fill="black"/>
+  
+  <!-- Tuxedo jacket right -->
+  <polygon points="280,100 240,110 240,200 280,190" fill="black"/>
+  
+  <!-- Shirt front -->
+  <rect x="160" y="110" width="80" height="100" fill="white" stroke="black" stroke-width="2"/>
+  
+  <!-- Buttons -->
+  <circle cx="200" cy="135" r="3" fill="black"/>
+  <circle cx="200" cy="160" r="3" fill="black"/>
+  <circle cx="200" cy="185" r="3" fill="black"/>
+  
+  <!-- ESTD text left -->
+  <text x="30" y="250" font-family="Arial" font-size="20" font-weight="bold" fill="black">ESTD</text>
+  
+  <!-- 2025 text right -->
+  <text x="340" y="250" font-family="Arial" font-size="20" font-weight="bold" fill="black">2025</text>
+  
+  <!-- innFit text -->
+  <text x="200" y="290" font-family="Arial" font-size="40" font-weight="bold" fill="black" text-anchor="middle">innFit</text>
+</svg>

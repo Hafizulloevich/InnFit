@@ -1,0 +1,74 @@
+A. General Prototype Setup
+Enable Prototype Mode
+In Figma, switch to the “Prototype” tab in the right sidebar to access all interaction and animation settings.
+B. Buttons, Icons, and Navigation
+Convert Buttons & Icons to Interactive Components
+Select each button/icon.
+In Prototype mode, drag the blue node to the destination frame (e.g. “Login → Home”, “Back Arrow → Previous Screen”).
+Set “On Click” (Tap) as the trigger.
+For arrows/sideways navigation, use “On Drag” as a trigger for sliding screens.
+Micro-Interactions for Feedback
+Duplicate each button as a component with the following states:
+Default
+Hover (color/brightness change, scale-up slightly)
+Pressed (darker or with a ripple overlay)
+Use “While Hovering” and “While Pressed” triggers to switch between states (Component → Variants → Add Interactions).
+C. Page Transitions & Motion
+Smooth Animated Transitions
+For all navigational links, set Smart Animate as the animation type.
+For panel or page sliders, use “Move In” or “Push” transitions from the relevant direction (left/right/up).
+Adjust easing to “Ease In and Out” and set duration to 300–500ms for mobile-like feel.
+D. Text Inputs, Search Boxes, & Focus
+Build Interactive Text Fields
+Create each text input as a Component with these Variants:
+Idle (grey/normal)
+Focused (blue outline, blinking cursor line)
+Filled (shows sample text)
+Add interaction: “On Click → Change to: Focused”; “On Click outside → Change to: Filled” (simulate user typing).
+For search fields, follow the same approach. Add a magnifier icon that triggers a filter/search overlay or dummy dropdown.
+E. Carousels, Cards, and Toggles
+Image Carousels (for apparel, galleries, etc.)
+Frame all images in a horizontal list.
+Add right/left arrow overlays; in Prototype mode, link arrows to next/prev image frames using “On Click” or “On Drag”.
+For “swipe” effect, use “On Drag” (left/right), and set Smart Animate transitions between carousel frames.
+Product Cards & Tap-To-Expand
+For each product/apparel card:
+Make a copy for “expanded” view with more details/bigger preview.
+Set “On Click → Swap with Expanded View frame (Smart Animate, scale/fade in).”
+Toggles/Dropdowns/Segmented Controls
+Components with “On Click” to toggle between On/Off or Show/Hide.
+Dropdowns: “On Click → Show Dropdown frame as Overlay”.
+F. Apparel Selection + Try-On
+Apparel Item Buttons
+When a user taps any apparel option:
+Link this to a version of the avatar/frame updated with the selected item (can use overlays for a smooth try-on effect).
+Set transition to Smart Animate for smooth appearance.
+G. Scanning Page – 3D Model Integration
+Scan Button → 3D Preview Experience
+Place a rectangle/container in your “Scanning Page” to represent the 3D viewport.
+Create an “Inactive” and an “Active” state:
+Inactive: Hide/blur the 3D area.
+Active: On “Scan” button click, reveal the preview with a fade-in + scale animation.
+Figma Limitation: You cannot embed live 3D, but you CAN:
+Use a fake 3D preview image for simulation.
+Add an “Open Link” action on the 3D placeholder or a floating button, linking to
+Live Sketchfab Model
+(Optional) Create several rotated 3D image snapshots and animate between them using On Drag for a “fake turntable” effect.
+Add text: “Touch and drag to rotate. (Live 3D opens in browser)”
+H. Gestures & Microinteractions
+Gesture Hotspots
+For any panel/screen where swiping should work:
+Drag Prototype links from edge areas and set “On Drag” → next/previous frame.
+Use overlays for slide-up/slide-down panels.
+Input Feedback & Ripple Effect
+For Android-like ripple on tap:
+Overlay a semi-transparent circle/gradient and animate it on “While Pressed” (if using figma plugins or manual animation frames).
+I. Error, Modal, and Overlay Handling
+Popups, Toasts, Modals
+Create overlays for these elements.
+“On Click” from trigger → Show Overlay frame (with fade/scale animation).
+J. Prototyping Summary & Flow Validation
+Validate and Tidy Up
+Double-check every button, hotspot, and swipe action has a linked prototype flow.
+Run “Present” in Figma to simulate the app and test all flows.
+Add numbered comments or labels to each major flow for team reference.                                                               This is the workflow of how you should improve my app design. Now, I will start inputting my app screen by screen and give short instructions to build a prototype

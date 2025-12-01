@@ -1,0 +1,41 @@
+Transform this website design into a highly interactive, dynamic, and motion-enhanced experience.
+
+Apply smooth, continuous “swimming” animations across all website elements — as if every component (images, icons, text boxes, cards, and UI blocks) moves naturally on a slow, fluid, train-like motion path. Each element should gently glide, drift, or float using subtle parallax effects, depth layering, and multi-directional motion. The movement must feel organic, soft, and cinematic — never chaotic or distracting.
+
+Interaction Requirements:
+
+Make every button fully clickable with hover micro-interactions (scale-up, glow, soft color shift).
+
+All images should be interactive: tilt on hover, rotate slightly, respond to cursor proximity, and smoothly enlarge on click.
+
+Icons should have playful animations (vibrate, bounce, pulse, or rotate) when hovered.
+
+Cards and text containers should lift upwards with soft shadows when hovered.
+
+Add smooth transitions between sections with layered parallax scrolling.
+
+Include scroll-triggered animations: fade-in, slide-in, staggered content entrance, and floating upward transitions.
+
+Implement physics-based motion (ease-in-out, soft acceleration, deceleration, inertia).
+
+Add a floating cursor effect: images tilt toward the cursor slightly when hovered.
+
+Design Enhancements:
+
+Apply modern 3D depth: shadows, glassmorphism, gradients, and floating layers.
+
+Add interactive hotspots and micro-components that react to user movement.
+
+Make the overall layout feel alive, breathable, and immersive with smooth 3D animations.
+
+Create an elevated modern aesthetic: bold typography, bright color accents, elegant gradients, soft glows, and glossy surfaces.
+
+Responsiveness:
+
+Ensure all animations adapt gracefully to mobile, tablet, and desktop.
+
+Motion paths should scale based on screen size.
+
+Touch interactions should include press, drag, and tap responses.
+
+The final result should feel like an ultra-modern, premium, animated product website with natural "train-like" swimming motion, smooth interactive flows, and delightfully responsive UI elements.

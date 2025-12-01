@@ -1,0 +1,47 @@
+CONTEXT:
+I have an e-commerce React web app exported from Figma Make. I need a mobile-first, responsive version with full interactive behavior:
+- All buttons responsive and visually interactive (tap, hover, press states).
+- Images respond to pointer/touch (on hover / drag in: subtle parallax / scale / highlight).
+- Bottom navigation: Home, Wishlist, Search, Settings — each should change screen and preserve state.
+- Product cards show image, title, description, price, available sizes/colors, fit% and reviews summary.
+- Clicking a product image opens a modal with carousel and full description.
+- Quantity controls update item quantity and recalculate totals.
+- Changing size or color updates the per-item price (different options may have price modifiers).
+- Adding to cart updates cart count in header and bottom nav badge, updates cart total.
+- Cart persists in memory (context or localStorage) while the app runs.
+- Profile page must support: upload/change avatar, edit address form, privacy settings toggle, About section.
+- "All Products" screen should display the same product tiles as Home.
+- Make everything mobile-friendly for iPhone and Android, with smooth touch scrolling and safe-area handling.
+
+TASK:
+1. Generate TypeScript React components and styles (Tailwind classes allowed). Include:
+   - CartContext (provider, useCart hook)
+   - Product types and sample dataset with 8 product variants (images can be placeholder URLs)
+   - ProductList / ProductCard components with size/color selectors, quantity control, add-to-cart
+   - ProductModal / ImageCarousel
+   - BottomNav with active state and cart badge
+   - Header with cart icon and badge
+   - ProfilePage with avatar upload (accept image files), address editor, privacy toggles, About
+   - Wishlist toggle per product
+   - Simple search filter for products
+2. Add pointer/touch handlers on ProductCard image:
+   - onPointerEnter/onPointerMove: scale image 1.04 and apply subtle translate based on pointer x/y (parallax)
+   - onPointerLeave: return to normal
+   - onTouchStart: scale on press briefly
+3. Cart price rules:
+   - each product has basePrice
+   - sizes/colors can be modifiers (e.g., size L +10%, color "premium" +$5)
+   - total per line = basePrice * (1 + sizeModifier) + colorModifier, times quantity
+4. Provide CSS rules / global.css patch:
+   - touch-action, -webkit-overflow-scrolling: touch
+   - .tap-target, safe-area padding, responsive grid
+5. Provide minimal sample images (unsplash placeholders OK)
+6. Keep code modular so I can drop files into my project.
+
+OUTPUT:
+- Full code files (CartContext.tsx, ProductCard.tsx, ProductModal.tsx, BottomNav.tsx, ProfilePage.tsx, sample data)
+- Minimal global.css changes
+- Short README snippet explaining where to paste and how to test
+- Use TypeScript and React.
+
+Make sure all code compiles in a Vite/CRA TypeScript React app and uses no external paid APIs. Keep images to public placeholder URLs.

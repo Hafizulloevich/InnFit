@@ -1,0 +1,20 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --primary: #0088ff;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --primary: #0088ff;
+}
+
+html {
+  font-size: var(--font-size);
+}
