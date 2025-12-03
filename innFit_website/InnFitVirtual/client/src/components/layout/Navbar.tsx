@@ -121,17 +121,7 @@ export default function Navbar() {
                   </motion.div>
                 </Link>
               ))}
-              <div className="pt-4 space-y-2">
-                <Button variant="outline" className="w-full" data-testid="button-mobile-login">
-                  Log In
-                </Button>
-                <Button
-                  className="w-full bg-gradient-to-r from-neon-blue to-neon-purple text-white border-0"
-                  data-testid="button-mobile-get-started"
-                >
-                  Get Started
-                </Button>
-              </div>
+              
             </div>
           </motion.div>
         )}
