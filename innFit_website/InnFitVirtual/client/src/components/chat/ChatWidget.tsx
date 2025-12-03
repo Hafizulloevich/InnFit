@@ -41,55 +41,73 @@ export default function ChatWidget() {
   const greetingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, displayedText]);
+  scrollToBottom();
+}, [messages, displayedText]);
 
-  // Greeting typewriter effect on mount (5 seconds for full text)
-  useEffect(() => {
-    if (showGreeting && !isOpen) {
-      const greetingMessage = "Hi! How can I help you?";
-      let currentIndex = 0;
-      const intervalDuration = 5000 / greetingMessage.length;
+// Greeting typewriter effect on mount (repeats every 5 seconds)
+useEffect(() => {
+  if (showGreeting && !isOpen) {
+    const greetingMessage = "Hi! How can I help you?";
+    const fullDuration = 5000; // 5 seconds loop
+    const intervalDuration = 3500 / greetingMessage.length;
+
+    let currentIndex = 0;
+
+    const runTyping = () => {
+      currentIndex = 0;
+      setGreetingText("");
+
+      if (greetingIntervalRef.current) clearInterval(greetingIntervalRef.current);
 
       greetingIntervalRef.current = setInterval(() => {
         if (currentIndex <= greetingMessage.length) {
           setGreetingText(greetingMessage.substring(0, currentIndex));
           currentIndex++;
         } else {
-          if (greetingIntervalRef.current) clearInterval(greetingIntervalRef.current);
+          clearInterval(greetingIntervalRef.current);
         }
       }, intervalDuration);
+    };
 
-      return () => {
-        if (greetingIntervalRef.current) clearInterval(greetingIntervalRef.current);
-      };
+    // Start typing immediately
+    runTyping();
+
+    // Restart typing every 5 seconds
+    const loop = setInterval(() => {
+      runTyping();
+    }, fullDuration);
+
+    return () => {
+      if (greetingIntervalRef.current) clearInterval(greetingIntervalRef.current);
+      clearInterval(loop);
+    };
+  }
+}, [showGreeting, isOpen]);
+
+useEffect(() => {
+  // Typewriter effect for messages with isTypewriting flag
+  messages.forEach((msg) => {
+    if (msg.isTypewriting && !displayedText[msg.id]) {
+      let currentIndex = 0;
+      const interval = setInterval(() => {
+        if (currentIndex <= msg.content.length) {
+          setDisplayedText((prev) => ({
+            ...prev,
+            [msg.id]: msg.content.substring(0, currentIndex),
+          }));
+          currentIndex++;
+        } else {
+          clearInterval(interval);
+          // Remove typewriting flag after animation completes
+          setMessages((prev) =>
+            prev.map((m) => (m.id === msg.id ? { ...m, isTypewriting: false } : m))
+          );
+        }
+      }, 30); // Faster response rate
+      return () => clearInterval(interval);
     }
-  }, [showGreeting, isOpen]);
-
-  useEffect(() => {
-    // Typewriter effect for messages with isTypewriting flag
-    messages.forEach((msg) => {
-      if (msg.isTypewriting && !displayedText[msg.id]) {
-        let currentIndex = 0;
-        const interval = setInterval(() => {
-          if (currentIndex <= msg.content.length) {
-            setDisplayedText((prev) => ({
-              ...prev,
-              [msg.id]: msg.content.substring(0, currentIndex),
-            }));
-            currentIndex++;
-          } else {
-            clearInterval(interval);
-            // Remove typewriting flag after animation completes
-            setMessages((prev) =>
-              prev.map((m) => (m.id === msg.id ? { ...m, isTypewriting: false } : m))
-            );
-          }
-        }, 30); // Faster response rate
-        return () => clearInterval(interval);
-      }
-    });
-  }, [messages, displayedText]);
+  });
+}, [messages, displayedText]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
