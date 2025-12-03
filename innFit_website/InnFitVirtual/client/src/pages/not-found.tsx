@@ -12,7 +12,8 @@ export default function NotFound() {
           </div>
 
           <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
+            Thank you for reaching here, we are checking the number of clicks to determine, who actually is interested in our product. 
+            We will come soon!
           </p>
         </CardContent>
       </Card>
