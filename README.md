@@ -1,8 +1,8 @@
 # Project Details
-This project was developed during the Young Founders Program at **Woosong University** (Fall 2025).
+InnFit project was developed during the Young Founders Program at **Woosong University** (Fall 2025).
 
 
-Project Idea is to develop a Virtual 3D/Augmented Reality Wardrobe for e-Commerce platforms, so their users can try-on cloth in real time to determine the right fit on their bodies.
+Project Idea is to develop a Virtual 3D/Augmented Reality Wardrobe for e-Commerce platforms, so their users can try-on clothes in real time to determine the right fit on their bodies.
 
 Frameworks used:
 - React
